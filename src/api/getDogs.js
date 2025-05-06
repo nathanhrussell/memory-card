@@ -36,18 +36,22 @@ function shuffle(array) {
 function formatBreedNameFromUrl(url) {
     const parts = url.split("/");
     const breedIndex = parts.indexOf("breeds") + 1;
-    const breedPath = parts[breedIndex];
-
+    const breedPath = parts[breedIndex]; // e.g. "bulldog-boston"
+  
+    // Use override if available
     if (breedNameOverrides[breedPath]) {
-        return breedNameOverrides[breedPath];
+      return breedNameOverrides[breedPath];
     }
-
-    return breedPath
-        .split("-")
-        .map((part) => 
-            part
-                .replace(/([a-z])([A-Z])/g, "$1 $2")
-                .replace(/^./, (c) => c.toUpperCase())
-        )
-        .join(" ");
-}
+  
+    const nameParts = breedPath.split("-");
+  
+    // Reverse sub-breed order if there are 2 parts
+    const formatted = nameParts.length === 2
+      ? [nameParts[1], nameParts[0]]
+      : nameParts;
+  
+    return formatted
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+  }
+  
