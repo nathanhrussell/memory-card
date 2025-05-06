@@ -4,11 +4,11 @@ function Card({ id, image, caption, onClick }) {
         onClick={() => onClick(id)}
         className="bg-white shadow rounded overflow-hidden cursor-pointer transform hover:scale-105 transition flex flex-col"
       >
-        <div className="h-48 bg-white flex items-center justify-center">
+        <div className="h-48 bg-white flex items-center justify-center relative">
           <img
             src={image}
             alt={caption}
-            className="h-full w-full object-contain"
+            className="absolute h-full w-full object-cover"
           />
         </div>
   
@@ -20,4 +20,3 @@ function Card({ id, image, caption, onClick }) {
   }
   
   export default Card;
-  
