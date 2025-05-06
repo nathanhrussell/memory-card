@@ -1,5 +1,11 @@
 import { all } from "axios";
 
+const breedNameOverrides = {
+    cotondetulear: "Coton de Tulear",
+    mexicanhairless: "Mexican Hairless",
+  };
+  
+
 export async function getDogs(count = 12) {
     const breedListRes = await fetch("https://dog.ceo/api/breeds/list/all");
     const breedListData = await breedListRes.json();
@@ -13,7 +19,7 @@ export async function getDogs(count = 12) {
         return {
             id: data.message,
             image: data.message,
-            caption: formatBreedName(breed),
+            caption: formatBreedNameFromUrl(data.message),
         };
     });
 
@@ -27,9 +33,21 @@ function shuffle(array) {
     .map(({ val }) => val);
 }
 
-function formatBreedName(breed) {
-    return breed
-    .split("-")
-    .map((w) => w[0].toUpperCase() + w.slice(1))
-    .join("");
+function formatBreedNameFromUrl(url) {
+    const parts = url.split("/");
+    const breedIndex = parts.indexOf("breeds") + 1;
+    const breedPath = parts[breedIndex];
+
+    if (breedNameOverrides[breedPath]) {
+        return breedNameOverrides[breedPath];
+    }
+
+    return breedPath
+        .split("-")
+        .map((part) => 
+            part
+                .replace(/([a-z])([A-Z])/g, "$1 $2")
+                .replace(/^./, (c) => c.toUpperCase())
+        )
+        .join(" ");
 }
