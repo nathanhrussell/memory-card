@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { getDogs } from "./api/getDogs";
+import { getDogs, shuffle } from "./api/getDogs";
 import Card from "./components/Card";
-import Shuffle from "./components/getDogs.js"
 
 function App() {
   const [dogs, setDogs] = useState([]);
@@ -29,7 +28,7 @@ function App() {
       setCurrentScore(currentScore + 1);
     }
   
-    setDogs(Shuffle([...dogs]));
+    setDogs(shuffle([...dogs]));
   };
   
   return (

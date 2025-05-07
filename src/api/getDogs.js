@@ -26,7 +26,7 @@ export async function getDogs(count = 12) {
     return Promise.all(dogPromises);
 }
 
-function shuffle(array) {
+export function shuffle(array) {
     return array
     .map((val) => ({ val, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
