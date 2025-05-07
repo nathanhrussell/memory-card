@@ -4,6 +4,9 @@ import Card from "./components/Card";
 
 function App() {
   const [dogs, setDogs] = useState([]);
+  const [clickedCards, setClickedCards] = useState([]);
+  const [currentScore, setCurrentScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
 
   useEffect(() => {
     getDogs()
@@ -12,9 +15,22 @@ function App() {
   }, []);
 
   const handleCardClick = (id) => {
-    console.log("Clicked card:", id);
-  };
+    if (clickedCards.includes(id)) {
 
+      if (currentScore > bestScore) {
+        setBestScore(currentScore);
+      }
+      setCurrentScore(0);
+      setClickedCards([]);
+    } else {
+
+      setClickedCards([...clickedCards, id]);
+      setCurrentScore(currentScore + 1);
+    }
+  
+    setDogs(shuffle([...dogs]));
+  };
+  
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
       <h1 className="text-3xl font-bold text-blue-700 mb-6">🐶 Dog Breed Memory Game 🐶</h1>
